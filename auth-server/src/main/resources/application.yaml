@@ -1,0 +1,17 @@
+server:
+  port: 9999
+  context-path: /uaa
+
+security:
+  sessions: if-required
+logging:
+  level:
+    org.springframework: INFO
+    org.springframework.security: DEBUG
+    org.springframework.cloud: DEBUG
+#spring:
+#    session:
+#        store-type: redis
+    application:
+        name: customauthapplication
+        index: 1
