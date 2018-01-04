@@ -2,7 +2,7 @@ logging:
   level:
     org.springframework.security: DEBUG
     org.springframework.cloud: DEBUG
-    org.springframework.web: WARN
+    org.springframework.web: INFO
     
 server:
   port: 8080
@@ -14,11 +14,11 @@ spring:
     store-type: redis
 zuul:
   routes:
-    proxy:
-      path: /proxyuser/**
-      url: http://localhost:8080/proxyuser    
+#    proxy:
+#      path: /proxyuser/**
+#      url: http://localhost:8080/    
     subsite:
-      path: /**
+      path: /ui/**
       url: http://localhost:8085
 #    resource:      
 #      path: /resource/**

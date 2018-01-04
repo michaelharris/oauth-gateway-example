@@ -19,7 +19,7 @@
 			<li ng-class="{active:tab('home')}"><a href="#/">Home</a></li>
 			<li ng-show="authenticated" ng-class="{active:tab('protected')}"><a
 				href="#/protected">Protected</a></li>
-			<li ng-show="!authenticated"><a href="login">login</a></li>
+			<li ng-show="!authenticated"><a href="/login">login</a></li>
 			<li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
 		</ul>
 

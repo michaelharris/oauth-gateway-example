@@ -19,7 +19,7 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
 		return $route.current && route === $route.current.controller;
 	};
 
-	$http.get('/user').success(function(data) {
+	$http.get('/principle').success(function(data) {
 		if (data.name) {
 			$rootScope.authenticated = true;
 			$rootScope.loggedInUser = data;
@@ -33,7 +33,7 @@ angular.module('hello', [ 'ngRoute' ]).config(function($routeProvider, $httpProv
 	$scope.credentials = {};
 
 	$scope.logout = function() {
-		$http.post('logout', {}).success(function() {
+		$http.post('/logout', {}).success(function() {
 			$rootScope.authenticated = false;
 			$location.path("/");
 		}).error(function(data) {

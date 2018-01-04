@@ -45,29 +45,23 @@ import org.springframework.web.util.WebUtils;
 @SpringBootApplication
 @Controller
 @EnableZuulProxy
-
-//@EnableRedisHttpSession
-//try another type of session here....
-//@EnableSpringHttpSession
 public class DemoGatewayApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DemoGatewayApplication.class, args);
     }
     
-    @RequestMapping("/proxyuser")
+    @RequestMapping("/principle")
 	@ResponseBody
 	public Principal user(Principal user) {
 		
-		System.out.println(user.toString());
 		return user;
 	}
 
     
-    
-    
+
     @Configuration
-    //@EnableWebSecurity
+    @EnableWebSecurity
     @EnableOAuth2Sso
 	@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 	protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -89,29 +83,14 @@ public class DemoGatewayApplication {
 			
 			  http
 		      .formLogin()
-		      .defaultSuccessUrl("/")
+		      .defaultSuccessUrl("/ui/")
 		      .loginPage("/login")
 		      .permitAll()
 		      .and()
 		      .logout()
 		      .logoutSuccessUrl("/logout")
 		      .permitAll();
-			  
-//
-			
-//			http
-//            .authorizeRequests()
-//                .antMatchers("/public/**").permitAll();
-        	//.anyRequest().authenticated()
-        	
-//        	.and()
-//       
-//				.csrf().csrfTokenRepository(csrfTokenRepository())
-//			.and()
-//				.addFilterAfter(csrfHeaderFilter(), SessionManagementFilter.class);
-	
-			//CookieCsrfTokenRepository.withHttpOnlyFalse()
-			//http.httpBasic().disable();
+
 		}
 
 		private Filter csrfHeaderFilter() {
@@ -119,8 +98,6 @@ public class DemoGatewayApplication {
 			System.out.println("calling header filter method");
 			
 			return new OncePerRequestFilter() {
-				
-				
 				
 				@Override
 				protected void doFilterInternal(HttpServletRequest request,

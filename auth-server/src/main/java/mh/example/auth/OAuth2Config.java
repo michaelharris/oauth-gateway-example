@@ -1,5 +1,8 @@
 package mh.example.auth;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * 
@@ -33,7 +39,30 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 		.authenticationManager(this.authenticationManager)					
 		//.tokenStore());	
 	.tokenStore(new InMemoryTokenStore());
-	}
+		
+	
+		//invalidate the user session in the authserver as soon as a token is granted 
+		
+		  endpoints.addInterceptor(new HandlerInterceptorAdapter() {
+		    @Override
+		    public void postHandle(HttpServletRequest request,
+		        HttpServletResponse response, Object handler,
+		        ModelAndView modelAndView) throws Exception {
+		      if (modelAndView != null
+		          && modelAndView.getView() instanceof RedirectView) {
+		        RedirectView redirect = (RedirectView) modelAndView.getView();
+		        String url = redirect.getUrl();
+		        if (url.contains("code=") || url.contains("error=")) {
+		          HttpSession session = request.getSession(false);
+		          if (session != null) {
+		            session.invalidate();
+		          }
+		        }
+		      }
+		    }
+		  });
+		}
+	
 	
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer)
