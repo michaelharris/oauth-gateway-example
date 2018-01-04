@@ -26,9 +26,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -72,7 +69,7 @@ public class DemoGatewayApplication {
 			http
         	.authorizeRequests()
         	//Allow access to all static resources without authentication
-        	.antMatchers("/","/**/*.html","/index.html", "/app.html","/login","/public/index.html").permitAll()
+        	.antMatchers("/","/**/*.html","/index.html", "/login","/public/index.html").permitAll()
         	.anyRequest().authenticated()
         	.and()
 				.csrf().csrfTokenRepository(csrfTokenRepository())
@@ -95,7 +92,6 @@ public class DemoGatewayApplication {
 
 		private Filter csrfHeaderFilter() {
 			
-			System.out.println("calling header filter method");
 			
 			return new OncePerRequestFilter() {
 				
@@ -103,8 +99,7 @@ public class DemoGatewayApplication {
 				protected void doFilterInternal(HttpServletRequest request,
 						HttpServletResponse response, FilterChain filterChain)
 						throws ServletException, IOException {
-					this.setBeanName("MH CSRF BEAN NAME");
-					System.out.println("XSRF Filter!");
+					
 					CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class
 							.getName());
 					if (csrf != null) {
@@ -140,6 +135,7 @@ class WorkaroundRestTemplateCustomizer implements UserInfoRestTemplateCustomizer
 
 	@Bean
 	public static RefreshScope refreshScope() {
+		//There was an issue with naming of applications needing to be the same.
 	    RefreshScope refresh = new RefreshScope();
 	    refresh.setId("newapplication:1");
 	    return refresh;

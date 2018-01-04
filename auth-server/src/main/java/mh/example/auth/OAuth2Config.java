@@ -42,7 +42,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 		
 	
 		//invalidate the user session in the authserver as soon as a token is granted 
-		
+		// Described: https://github.com/spring-guides/tut-spring-security-and-angular-js/tree/master/oauth2-logout
 		  endpoints.addInterceptor(new HandlerInterceptorAdapter() {
 		    @Override
 		    public void postHandle(HttpServletRequest request,

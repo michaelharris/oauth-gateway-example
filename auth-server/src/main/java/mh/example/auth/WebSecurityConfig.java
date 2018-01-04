@@ -28,11 +28,6 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-/**
- * 
- * @author Filip Lindby
- *
- */
 @Configuration
 @EnableWebSecurity
 @Order(-20)

@@ -31,17 +31,8 @@ public class AuthserverApplication {
 	public Principal user(Principal user) {
 		return user;
 	}
-	@Autowired
-	@Qualifier("clientDetailsService")
-	private ClientDetailsService oauth2ClientDetailsService;
+
 	
-	@RequestMapping(value = "/user2", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Object getInfo(OAuth2Authentication auth) {
-		return auth.getPrincipal();
-		
-		//auth.getUserAuthentication().g
-	   // return oauth2ClientDetailsService.getUser(auth); // Returns User Object
-	}
 	
 	public static void main(String[] args) {
 		SpringApplication.run(AuthserverApplication.class, args);
